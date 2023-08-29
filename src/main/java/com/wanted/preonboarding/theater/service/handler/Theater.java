@@ -8,14 +8,23 @@ import org.springframework.stereotype.Component;
 public class Theater {
 
     public void enter(Audience audience, TicketSeller ticketSeller){
-        if(audience.getBag().hasInvitation()){
-            Ticket ticket = ticketSeller.getTicketOffice().getTicket();
-            audience.getBag().setTicket(ticket);
-        }else {
-            Ticket ticket = ticketSeller.getTicketOffice().getTicket();
-            audience.getBag().minusAmount(ticket.getFee());
-            ticketSeller.getTicketOffice().plusAmount(ticket.getFee());
-            audience.getBag().setTicket(ticket);
+        if(!checkTicket(audience)){
+            buyTicket(audience, ticketSeller);
         }
+        useTicket(audience, ticketSeller);
+    }
+
+    public void useTicket(Audience audience, TicketSeller ticketSeller) {
+        audience.getBag().setTicket(ticketSeller.getTicketOffice().getTicket());
+    }
+
+    public void buyTicket(Audience audience, TicketSeller ticketSeller) {
+        Long ticketFee = ticketSeller.getTicketOffice().getTicket().getFee();
+        audience.getBag().minusAmount(ticketFee);
+        ticketSeller.getTicketOffice().plusAmount(ticketFee);
+    }
+
+    public boolean checkTicket(Audience audience) {
+        return audience.getBag().hasInvitation();
     }
 }
