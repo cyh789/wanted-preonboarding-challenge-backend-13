@@ -12,12 +12,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class TheaterService {
+
+    private final long ticketAmount = 20000L;
+    private final long ticketFee = 100L;
+
     private final TheaterImpl theater;
 
     public String enter(Audience audience){
         theater.enter(TheaterRequest.builder()
                 .audience(audience)
-                .ticketSeller(new TicketSeller(new TicketOffice(20000L, new Ticket(100L))))
+                .ticketSeller(new TicketSeller(new TicketOffice(ticketAmount, new Ticket(ticketFee))))
                 .build()
         );
         return "Have a good time.";
