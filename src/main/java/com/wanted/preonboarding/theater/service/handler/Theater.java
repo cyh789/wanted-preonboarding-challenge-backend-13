@@ -7,10 +7,4 @@ import org.springframework.stereotype.Component;
 public interface Theater {
 
     void enter(TheaterRequest theaterRequest);
-
-    void useTicket();
-
-    void buyTicket();
-
-    boolean checkTicket();
 }
